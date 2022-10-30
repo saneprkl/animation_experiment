@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Game.module.css';
 import char from './AnimationSheet_Character.png'
 
 export default function Game() {
+    const [active, setActive] = useState('');
     let output;
 
     
@@ -18,7 +19,7 @@ export default function Game() {
         let frames = 0;
         const slowAnimation = 30;
         const charWidth = 33;
-        const charHeight = 32.2;
+        const charHeight = 32.5;
         let charState = 'idle2';
 
         const animations = [];
@@ -88,6 +89,13 @@ export default function Game() {
         </>
     }
 
+    const buttonAnimation = (e) => {
+        console.log(e.target.id,'button works');
+        console.log(e.target.className)
+        setActive(e.target.id);
+        console.log(e.target.className)
+    }
+
     output = <>
         <div className={ styles.container }>
             <button className={ styles.start } onClick={ () => startGame() }>
@@ -100,15 +108,15 @@ export default function Game() {
     <canvas id="canvas"></canvas>
         { output }
         <div className={ styles.buttonContainer }>
-            <button className={ styles.animationButton }>Idle</button>
-            <button className={ styles.animationButton }>Idle 2</button>
-            <button className={ styles.animationButton }>Walk</button>
-            <button className={ styles.animationButton }>Run</button>
-            <button className={ styles.animationButton }>Duck</button>
-            <button className={ styles.animationButton }>Jump</button>
-            <button className={ styles.animationButton }>Vanish</button>
-            <button className={ styles.animationButton }>Death</button>
-            <button className={ styles.animationButton }>Attack</button>
+            <button key={ 1 } id={ '1' } className={ active === '1' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Idle</button>
+            <button key={ 2 } id={ '2' } className={ active === '2' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Idle 2</button>
+            <button key={ 3 } id={ '3' } className={ active === '3' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Walk</button>
+            <button key={ 4 } id={ '4' } className={ active === '4' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Run</button>
+            <button key={ 5 } id={ '5' } className={ active === '5' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Duck</button>
+            <button key={ 6 } id={ '6' } className={ active === '6' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Jump</button>
+            <button key={ 7 } id={ '7' } className={ active === '7' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Vanish</button>
+            <button key={ 8 } id={ '8' } className={ active === '8' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Death</button>
+            <button key={ 9 } id={ '9' } className={ active === '9' ? styles.animationButton2 : styles.animationButton } onClick={ (e) => buttonAnimation(e) }>Attack</button>
         </div>    
     </>
     )
