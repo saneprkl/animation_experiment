@@ -14,12 +14,16 @@
 }
 .buttonContainer {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 25px;
     justify-content: space-evenly;
 }
 .animationButton {
     width: 150px;
     height: 100px;
+    margin-left: 7%;
+    margin-right: 7%;
+    margin-bottom: 25px;
     font-size: 20px;
     cursor: pointer;
     border: none;
@@ -34,6 +38,9 @@
     width: 150px;
     height: 100px;
     font-size: 20px;
+    margin-left: 7%;
+    margin-right: 7%;
+    margin-bottom: 25px;
     cursor: pointer;
     border: none;
     outline: none;

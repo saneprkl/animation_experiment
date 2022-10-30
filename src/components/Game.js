@@ -83,7 +83,6 @@ export default function Game() {
             frames++;
             requestAnimationFrame(animate);
         }
-
         output = <>
             { animate() }
         </>
