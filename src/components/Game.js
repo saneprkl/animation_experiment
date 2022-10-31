@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Game.module.css';
 import char from './AnimationSheet_Character.png'
 
 export default function Game() {
-    const [active, setActive] = useState('');
+    const [active, setActive] = useState('1');
+    const [activeAnimation, setAnimation] = useState(1);
     let output;
 
-    
+    useEffect(() => {
+        startGame();
+      }, [activeAnimation]);
+
     const startGame = () => {
         
         const canvas = document.getElementById('canvas');
@@ -17,51 +21,77 @@ export default function Game() {
         const character = new Image();
         character.src = char;
         let frames = 0;
-        const slowAnimation = 30;
-        const charWidth = 33;
-        const charHeight = 32.5;
-        let charState = 'idle2';
+        let slowAnimation = 50
+        const charWidth = 32;
+        const charHeight = 32.3;
+        let charState = activeAnimation;
 
         const animations = [];
         const animationState = [
             {
+                id: 1,
                 name: 'idle',
-                frames: 2
+                frames: 2,
+                speed: 40
             },
             {
+                id: 2,
                 name: 'idle2',
-                frames: 2
+                frames: 2,
+                speed: 40
             },
             {
+                id: 3,
                 name: 'walk',
-                frames: 4
+                frames: 4,
+                speed: 20
             },
             {
+                id: 4,
                 name: 'run',
-                frames: 8
+                frames: 8,
+                speed: 14
             },
             {
+                id: 5,
                 name: 'duck',
-                frames: 6
+                frames: 6,
+                speed: 20
             },
             {
+                id: 6,
                 name: 'jump',
-                frames: 8
+                frames: 8,
+                speed: 15
             },
             {
+                id: 7,
                 name: 'vanish',
-                frames: 3
+                frames: 5,
+                speed: 30
             },
             {
+                id: 8,
                 name: 'die',
-                frames: 8
+                frames: 8,
+                speed: 20
             },
             {
+                id: 9,
                 name: 'attack',
-                frames: 8
+                frames: 8,
+                speed: 15
             }
         ];
 
+        // Loop to set correct speed
+        for(let i = 0; i < animationState.length; i++){
+            if(animationState[i].id == activeAnimation) {
+                slowAnimation = animationState[i].speed
+            }
+        }
+
+        // Function to find coordinates for frames
         animationState.forEach((state, i) => {
             let frames = {
                 loc: [],
@@ -71,12 +101,41 @@ export default function Game() {
                 let positionY = i * charHeight;
                 frames.loc.push({x: positionX, y: positionY});
             }
-            animations[state.name] = frames;
+            animations[state.id] = frames;
         })
 
-        const animate = () => {
+        let lastTimeStamp = 0;
+        let deltaTime = 0;
+        // Animate character
+        const animate = (timeStamp) => {
+
+            // Correct animation speed based on monitor refresh rate
+            deltaTime = timeStamp - lastTimeStamp;
+            lastTimeStamp = timeStamp
+            let render = slowAnimation;
+
+            // 30 Hz
+            if(deltaTime > 28) {
+                render = slowAnimation / 4.8
+            }
+            // 60 Hz
+            if(deltaTime > 9 && deltaTime < 28) {
+                render = slowAnimation / 2.4
+            }
+            // 120 Hz
+            if(deltaTime > 7 && deltaTime < 9) {
+                render = slowAnimation / 1.2
+            }
+            // 240 Hz
+            if(deltaTime < 4) {
+                render = slowAnimation / 0.6
+            }
+            // End of speed correction
+
             ctx.clearRect(0,0, width, height);
-            let position = Math.floor(frames/slowAnimation) % animations[charState].loc.length;
+            ctx.fillStyle = "#BDB76B"
+            ctx.fillRect(0, 0, 500, 500);
+            let position = Math.floor(frames/render) % animations[charState].loc.length;
             let frameX = charWidth * position;
             let frameY = animations[charState].loc[position].y;
             ctx.drawImage(character, frameX, frameY, charHeight, charWidth, 100, 100, 100, 100);
@@ -88,18 +147,15 @@ export default function Game() {
         </>
     }
 
+    // Function to highlight button and activate corresponding animation
     const buttonAnimation = (e) => {
-        console.log(e.target.id,'button works');
-        console.log(e.target.className)
         setActive(e.target.id);
-        console.log(e.target.className)
+        setAnimation(e.target.id);
+        console.log(activeAnimation, "active animation");
     }
-
+    
     output = <>
         <div className={ styles.container }>
-            <button className={ styles.start } onClick={ () => startGame() }>
-                Start Animation
-            </button>
         </div>
             </>
     return (
