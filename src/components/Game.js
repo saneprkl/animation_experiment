@@ -23,7 +23,7 @@ export default function Game() {
         let frames = 0;
         let slowAnimation = 50
         const charWidth = 32;
-        const charHeight = 32.3;
+        let charHeight = 32.3;
         let charState = activeAnimation;
 
         const animations = [];
@@ -67,7 +67,7 @@ export default function Game() {
             {
                 id: 7,
                 name: 'vanish',
-                frames: 5,
+                frames: 7,
                 speed: 30
             },
             {
@@ -97,6 +97,15 @@ export default function Game() {
                 loc: [],
             }
             for(let c = 0; c < state.frames; c++){
+                console.log(state.id)
+                if(charState == '5' || charState == '9' || charState == '6') {
+                    console.log("works", charHeight)
+                    charHeight = 32.2;
+                }
+                if(charState == '8') {
+                    console.log("works")
+                    charHeight = 32.05
+                }
                 let positionX = c * charWidth;
                 let positionY = i * charHeight;
                 frames.loc.push({x: positionX, y: positionY});
@@ -106,7 +115,10 @@ export default function Game() {
 
         let lastTimeStamp = 0;
         let deltaTime = 0;
+
         // Animate character
+
+
         const animate = (timeStamp) => {
 
             // Correct animation speed based on monitor refresh rate
@@ -131,7 +143,7 @@ export default function Game() {
                 render = slowAnimation / 0.6
             }
             // End of speed correction
-
+            
             ctx.clearRect(0,0, width, height);
             ctx.fillStyle = "#BDB76B"
             ctx.fillRect(0, 0, 500, 500);
