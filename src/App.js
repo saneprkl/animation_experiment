@@ -1,10 +1,10 @@
 import './App.css';
-import Game from './components/Game'
+import Animation from './components/Animation'
 
 export default function App() {
 
 
   return (
-    <Game/>
+    <Animation/>
   );
 };

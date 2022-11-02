@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Game.module.css';
-import char from './AnimationSheet_Character.png'
+import styles from './Animation.module.css';
+import char from './AnimationSheet_Character.png';
+import animationStates from './AnimationStates.json';
 
-export default function Game() {
+export default function Animation() {
     const [active, setActive] = useState('1');
     const [activeAnimation, setAnimation] = useState(1);
     let output;
 
     useEffect(() => {
-        startGame();
+        startAnimation();
       }, [activeAnimation]);
 
-    const startGame = () => {
+    const startAnimation = () => {
         
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -27,63 +28,8 @@ export default function Game() {
         let charState = activeAnimation;
 
         const animations = [];
-        const animationState = [
-            {
-                id: 1,
-                name: 'idle',
-                frames: 2,
-                speed: 40
-            },
-            {
-                id: 2,
-                name: 'idle2',
-                frames: 2,
-                speed: 40
-            },
-            {
-                id: 3,
-                name: 'walk',
-                frames: 4,
-                speed: 20
-            },
-            {
-                id: 4,
-                name: 'run',
-                frames: 8,
-                speed: 14
-            },
-            {
-                id: 5,
-                name: 'duck',
-                frames: 6,
-                speed: 20
-            },
-            {
-                id: 6,
-                name: 'jump',
-                frames: 8,
-                speed: 15
-            },
-            {
-                id: 7,
-                name: 'vanish',
-                frames: 7,
-                speed: 30
-            },
-            {
-                id: 8,
-                name: 'die',
-                frames: 8,
-                speed: 20
-            },
-            {
-                id: 9,
-                name: 'attack',
-                frames: 8,
-                speed: 15
-            }
-        ];
-
+        const animationState = animationStates.animationState
+        
         // Loop to set correct speed
         for(let i = 0; i < animationState.length; i++){
             if(animationState[i].id == activeAnimation) {
@@ -117,8 +63,6 @@ export default function Game() {
         let deltaTime = 0;
 
         // Animate character
-
-
         const animate = (timeStamp) => {
 
             // Correct animation speed based on monitor refresh rate
